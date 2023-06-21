@@ -1,2 +1,2 @@
-# MorningDutyCompanion
-A simple mobile tool to assist RIB morning duty
+# Morning Duty Companion
+A simple website to assist RIB routine Morning Duty.
