@@ -64,13 +64,14 @@ function displayData(data) {
     }
   }
   
+  
 function displayError(message) {
   // Clear the content inside the alert container
   alertContainer.innerHTML = '';
 
   // Create a new success alert element
   const successAlert = document.createElement('div');
-  successAlert.classList.add('bg-red-lighter', 'border', 'border-red-dark', 'text-red', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2');
+  successAlert.classList.add('bg-red-lighter', 'border', 'border-red-dark', 'text-red', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2', 'hover:bg-red-light', 'hover:text-white', 'hover:shadow-md');
   successAlert.setAttribute('role', 'alert');
 
   successAlert.innerHTML = `
@@ -89,7 +90,8 @@ function displaySuccess(message) {
 
   // Create a new success alert element
   const successAlert = document.createElement('div');
-  successAlert.classList.add('bg-green-lighter', 'border', 'border-green-dark', 'text-green', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2');
+  successAlert.classList.add('bg-green-lighter', 'border', 'border-green-dark', 'text-green', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2', 'hover:bg-green-light', 'hover:text-white', 'hover:shadow-md');
+  successAlert.setAttribute('role', 'alert');
   successAlert.setAttribute('role', 'alert');
 
   successAlert.innerHTML = `

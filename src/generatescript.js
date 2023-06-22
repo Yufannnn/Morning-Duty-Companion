@@ -83,11 +83,12 @@ function displaySuccess(message) {
 
   // Create a new success alert element
   const successAlert = document.createElement('div');
-  successAlert.classList.add('bg-green-lighter', 'border', 'border-green-dark', 'text-green', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2');
+  successAlert.classList.add('bg-green-lighter', 'border', 'border-green-dark', 'text-green', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2', 'hover:bg-green-light', 'hover:text-white', 'hover:shadow-md');
+  successAlert.setAttribute('role', 'alert');
   successAlert.setAttribute('role', 'alert');
 
   successAlert.innerHTML = `
-    <strong class="font-bold">Welcome!</strong>
+    <strong class="font-bold">Success!</strong>
     <span class="block sm:inline">${message}</span>
   `;
 

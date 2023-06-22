@@ -45,7 +45,7 @@ function addNameAndReason() {
   const removeCell = row.insertCell(2);
   nameCell.innerHTML = theName;
   reasonCell.innerHTML = reason;
-  removeCell.innerHTML = '<button class="bg-green-dark hover:bg-green text-white px-3 my-1 rounded-md">Remove</button>';
+  removeCell.innerHTML = '<button class="bg-green-dark hover:bg-green text-white px-3 my-1 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">Remove</button>';
 
   // Add 'text-center' class to each cell in the row
   nameCell.classList.add('text-center', 'border-r', 'border-green-dark');
@@ -69,23 +69,6 @@ function addNameAndReason() {
   displaySuccess(message);
 }
 
-  
-// Define the copyToClipboard function
-function copyToClipboard() {
-  const textToCopy = messageTextarea.value;
-
-  // Use the Clipboard API to copy the text to the clipboard
-  navigator.clipboard.writeText(textToCopy)
-    .then(() => {
-      console.log("Text copied to clipboard:", textToCopy);
-    })
-    .catch((error) => {
-      console.error("Error copying text to clipboard:", error);
-    });
-
-  // Display a success message
-  displaySuccess("Message copied to clipboard!");
-}
 
 function displaySuccess(message) { 
   // Clear the content inside the alert container
@@ -93,15 +76,15 @@ function displaySuccess(message) {
 
   // Create a new success alert element
   const successAlert = document.createElement('div');
-  successAlert.classList.add('bg-green-lighter', 'border', 'border-green-dark', 'text-green', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2');
+  successAlert.classList.add('bg-green-lighter', 'border', 'border-green-dark', 'text-green', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2', 'hover:bg-green-light', 'hover:text-white', 'hover:shadow-md');
+  successAlert.setAttribute('role', 'alert');
   successAlert.setAttribute('role', 'alert');
 
   successAlert.innerHTML = `
-    <strong class="font-bold">Welcome!</strong>
+    <strong class="font-bold">Success!</strong>
     <span class="block sm:inline">${message}</span>
   `;
 
   // Append the success alert element to the alert container
   alertContainer.appendChild(successAlert);
 }
-  

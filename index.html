@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Morning Duty Companion</title>
   <link rel="stylesheet" href="src/output.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link rel="icon" href="icon.ico" type="image/x-icon" />
 </head>
 
@@ -24,25 +25,14 @@
     </header>
 
     <div id="alert">
-      <div class="bg-blue-lighter border border-blue-dark text-blue px-4 py-3 rounded relative mt-2 mx-2" role="alert">
+      <div class="bg-blue-lighter border border-blue-dark text-blue px-4 py-3 rounded relative mt-2 mx-2 hover:bg-blue-light hover:text-white hover:shadow-md" role="alert">
         <strong class="font-bold">Welcome!</strong>
         <span class="block sm:inline">Please upload a CSV file to start.</span>
       </div>
     </div>
-
-
-    <!-- <div class="bg-green-lighter border border-green-dark text-green px-4 py-3 rounded relative mt-2 mx-2" role="alert">
-      <strong class="font-bold">Welcome!</strong>
-      <span class="block sm:inline">Please upload a CSV file to start.</span>
-    </div>    
-
-    <div class="bg-red-lighter border border-red-dark text-red px-4 py-3 rounded relative mt-2 mx-2" role="alert">
-      <strong class="font-bold">Error!</strong>
-      <span class="block sm:inline">Invalid CSV provided, missing required columns.</span>
-    </div> -->
     
     <div class="flex justify-center items-center mt-2">
-      <label for="input" class="flex items-center px-4 py-2 bg-blue-dark text-white rounded-md cursor-pointer hover:bg-blue-dark shadow-2xl hover:shadow-2xl focus:ring focus:ring-blue-light">
+      <label for="input" class="flex items-center px-4 py-2 bg-blue-dark text-white rounded-md cursor-pointer transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7M9 2h6m-3 0v9m-4-2l4-4 4 4m-4 4v6" />
         </svg>
@@ -67,50 +57,59 @@
     
     <div class="flex flex-col justify-center items-center mt-4 mx-auto bg-white rounded-md shadow-md p-4 w-3/4">
       <div class="w-3/4">
-        <select id="name_dropdown" class="w-full p-2 rounded-md shadow-inner border border-gray-light">
+        <select id="name_dropdown" class="w-full p-2 rounded-md shadow-inner border border-gray-light transition duration-300 ease-in-out hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
           <option value="0">Select a name</option>
         </select>
       </div>
+      
       <div class="w-3/4">
-        <input type="text" id="name_text" placeholder="Enter a name" class="w-full p-2 rounded-md shadow-inner border border-gray-light">
+        <input type="text" id="name_text" placeholder="Enter a name" class="w-full p-2 mt-1 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
       </div>
       <div class="w-3/4 mt-4">
-        <select id="reason_dropdown" class="w-full p-2 rounded-md shadow-inner border border-gray-light">
+        <select id="reason_dropdown" class="w-full p-2 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
           <option value="0">Select a reason</option>
           <option value="MC">MC</option>
           <option value="unwell">unwell</option>
           <option value="parent letter">parent letter</option>
-          <option value="gap day">gap day</option>
           <option value="HBL">HBL</option>
+          <option value="gap day">gap day</option>
           <option value="late school day">late school day</option>
+          <option value="teacher parent day">teacher parent day</option>
           <option value="overslept">overslept</option>
         </select>
-      </div>
+      </div>          
       <div class="w-3/4">
-        <input type="text" id="reason_text" name="reason" placeholder="Enter a reason" class="w-full p-2 rounded-md shadow-inner border border-gray-light">
+        <input type="text" id="reason_text" name="reason" placeholder="Enter a reason" class="w-full p-2 mt-1 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
       </div>
-      <button id="add" class="mt-2 bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md">Add</button>
+      <button id="add" class="mt-4 bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
+        Add Record
+      </button>      
     </div>
     
     
     <div class="flex flex-col justify-center items-center mt-4 mx-auto bg-white rounded-md shadow-md p-4 w-3/4 mb-4">
       <div class="mb-2 w-3/4">
-        <textarea id="message" placeholder="Generate Message" class="rounded-md shadow-inner w-full h-64 p-2 border border-gray-light"></textarea>
+        <textarea id="message" placeholder="Generate Message" class="rounded-md shadow-inner w-full h-64 p-2 border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500"></textarea>
       </div>
       <div class="flex space-x-4">
-        <button id="generate" class="bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md">Generate Message</button>
-        <button id="copy" class="bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md">Copy to Clipboard</button>
+        <button id="generate" class="bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
+          Generate Message
+        </button>
+        <button id="copy" class="bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
+          Copy to Clipboard
+        </button>
       </div>
+      
     </div>
     
   </main>
 
-  <footer class="bg-gray text-white py-4">
+  <footer class="bg-gray text-white py-2">
     <div class="container mx-auto px-4">
       <p class="text-center text-sm">&copy; 2023 Yufan - All rights reserved</p>
     </div>
   </footer>
-
+    
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
   <script src="src/datascript.js"></script>
