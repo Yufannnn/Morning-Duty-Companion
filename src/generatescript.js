@@ -77,17 +77,21 @@ function copyToClipboard() {
   displaySuccess("Message copied to clipboard!");
 }
 
-function displaySuccess(message) {
-  const outputElement = document.getElementById("output");
-  const successDiv = document.createElement("div");
-  successDiv.classList.add("alert", "alert-success"); // Add the required classes for success styling
-  successDiv.innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-  <span>${message}</span>
+function displaySuccess(message) { 
+  // Clear the content inside the alert container
+  alertContainer.innerHTML = '';
+
+  // Create a new success alert element
+  const successAlert = document.createElement('div');
+  successAlert.classList.add('bg-green-lighter', 'border', 'border-green-dark', 'text-green', 'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2');
+  successAlert.setAttribute('role', 'alert');
+
+  successAlert.innerHTML = `
+    <strong class="font-bold">Welcome!</strong>
+    <span class="block sm:inline">${message}</span>
   `;
-  
-  // clear previous error messages
-  outputElement.innerHTML = "";
-  outputElement.appendChild(successDiv);
+
+  // Append the success alert element to the alert container
+  alertContainer.appendChild(successAlert);
 }
 

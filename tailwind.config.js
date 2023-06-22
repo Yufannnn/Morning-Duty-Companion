@@ -1,31 +1,50 @@
 module.exports = {
-  mode: 'jit',
-  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx,vue}'],
-  theme: {},
-  variants: {},
-  plugins: [
-    require('daisyui'),
-    require('@tailwindcss/typography'),
-  ],
-  // daisyUI config (optional - here are the default values)
-  daisyui: {
-    themes: [
-      {
-        mytheme: {
-          'primary': '#006766',
-          'secondary': '#f000b8',
-          'primary-text': '#ffffff', // Set the text color to white for the primary button
-          'accent': '#570df8',
-          'neutral': '#ddd6fe',
-          'base-100': '#ffffff',
-          'info': '#3abff8',
-          'success': '#36d399',
-          'warning': '#fbbd23',
-          'error': '#f87272',
-        },
+  content: ["./src/**/*.{html,js}", "./index.html"],
+  theme: {
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
+    colors: {
+      'blue': '#1fb6ff',
+      'blue-dark': '#0068b7',
+      'blue-light': '#ddf0ff',
+      'blue-lighter': '#f0f7ff',
+      'purple': '#7e5bef',
+      'pink': '#ff49db',
+      'orange': '#ff7849',
+      'green': '#13ce66',
+      'yellow': '#ffc82c',
+      'white': '#ffffff',
+      'gray-dark': '#273444',
+      'gray': '#8492a6',
+      'gray-lighter': '#f5f5f7',
+      'gray-light': '#d3dce6',
+      'green-dark': '#006766',
+      'green': '#00a3a3',
+      'green-light': '#e6fffa',
+      'green-lighter': '#f0fff4',
+      'black': '#000000',
+      'red': '#ff0000',
+      'red-light': '#ffcccc',
+      'red-lighter': '#ffe6e6',
+      'red-dark': '#990000',
+    },
+    fontFamily: {
+      sans: ['Graphik', 'sans-serif'],
+      serif: ['Merriweather', 'serif'],
+    },
+    extend: {
+      spacing: {
+        '128': '32rem',
+        '144': '36rem',
       },
-      'cyberpunk',
-      'cupcake',
-    ],
+      borderRadius: {
+        '4xl': '2rem',
+      },
+    },
   },
+  plugins: [],
 };
