@@ -1,77 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="mytheme" lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Morning Duty Companion</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="src/output.css">
 </head>
+
 <body>
+  <header>
+    <nav class="navbar bg-primary">
+      <div class="container mx-auto px-4 py-2">
+        <a href="#" class="navbar-brand text-white">Morning Duty Companion</a>
+      </div>
+    </nav>
+  </header>
+
   <main class="container mx-auto mt-4 p-4">
-    <h2 class="text-2xl font-bold mb-4">Welcome to Morning Duty Companion</h2>
-    <p class="mb-2">A simple website for smoother Morning Duty Experience</p>
-    <input type="file" id="input" accept=".csv" class="mb-2">
-    <div>
-      <!-- a table to show all the added boaders name and reason-->
-        <table id="table" class="mb-2">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Reason</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+    <div class="alert" id="output"></div>
+    <div class="overflow-x-auto">
+      <table class="table table-zebra" id="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
     <div>
       <label for="dropdown">Select a name:</label>
-      <select id="name_dropdown">
+      <select id="name_dropdown" class="select select-secondary w-full max-w-xs">
         <option value="0">Select a name</option>
       </select>
     </div>
-    <div> 
-        <label for="name">Or Enter a name:</label>
-        <input type="text" id="name_text" name="name" placeholder="Enter a name">
+    <div>
+      <label for="name">Or Enter a name:</label>
+      <input type="text" id="name_text" placeholder="Enter a name" class="input input-bordered input-secondary w-full max-w-xs">
     </div>
     <div>
-        <label for="dropdown">Select a reason:</label>
-        <select id="reason_dropdown">
-            <option value="0">Select a reason</option>
-            <option value="MC">MC</option>
-            <option value="unwell">unwell</option>
-            <option value="parent letter">parent letter</option>
-            <option value="gap day">gap day</option>
-            <option value="HBL">HBL</option>
-            <option value="late school day">late school day</option>
-            <option value="overslept">overslept</option>
-        </select>
-      </div>
-      <div>
-        <label for="reason">Or Enter a reason:</label>
-        <input type="text" id="reason_text" name="reason" placeholder="Enter a reason">
-      </div>
-      <button class="btn" id="add">Add</button>
-      <!-- a text box to show the generated message -->
-      <div>
-        <textarea id="message" class="mb-2"></textarea>
+      <label for="dropdown">Select a reason:</label>
+      <select id="reason_dropdown" class="select select-secondary w-full max-w-xs">
+        <option value="0">Select a reason</option>
+        <option value="MC">MC</option>
+        <option value="unwell">unwell</option>
+        <option value="parent letter">parent letter</option>
+        <option value="gap day">gap day</option>
+        <option value="HBL">HBL</option>
+        <option value="late school day">late school day</option>
+        <option value="overslept">overslept</option>
+      </select>
     </div>
-    <button class="btn" id="generate">Generate Message</button>
-    <button class="btn" id="copy">Copy to Clipboard</button>
-    
-    <pre id="output"></pre>
+    <div>
+      <label for="reason">Or Enter a reason:</label>
+      <input type="text" id="reason_text" name="reason" placeholder="Enter a reason" class="input input-bordered input-secondary w-full max-w-xs">
+    </div>
+    <button class="btn btn-primary text-white" id="add">Add</button>
+
+    <!-- a text box to show the generated message -->
+    <div>
+      <textarea id="message" placeholder="Generate Message" class="textarea textarea-bordered textarea-lg w-full max-w-xs"></textarea>
+    </div>
+    <button class="btn btn-primary text-white" id="generate">Generate Message</button>
+    <button class="btn btn-primary text-white" id="copy">Copy to Clipboard</button>
+
   </main>
 
-  <footer class="bg-gray-200 p-4 text-center">
-    <p>&copy; 2023 Yufannnn. All rights reserved.</p>
+  <footer class="footer footer-center p-4 bg-base-300 text-base-content">
+    <div>
+      <p>Copyright © 2023 Yufan - All right reserved</p>
+    </div>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-  <script src="scripts/datascript.js"></script>
-  <script src="scripts/addrecordscript.js"></script>
-  <script src="scripts/generatescript.js"></script>
+  <script src="src/datascript.js"></script>
+  <script src="src/addrecordscript.js"></script>
+  <script src="src/generatescript.js"></script>
 </body>
 
 </html>
