@@ -9,11 +9,11 @@ Morning Duty Companion is a simple website designed to assist RIB RAs with RIB r
 ## Features
 
 - Easily manage and track absent boarders
-- **Message Generation**: Generate customized messages for different morning duty scenarios.
-- **Name and Reason Selection**: Select names and reasons from dropdown menus or enter custom values.
-- **Table Display**: Display the list of names and reasons in a table format.
-- **Remove Entries**: Remove entries from the table with a single click.
-- **GUI**: Interactive GUI.
+- Select names and reasons from dropdown menus or enter custom values.
+- Automatically generate messages to be sent to the Boarding Managers.
+- Display the list of names and reasons in a table format.
+- Remove entries from the table with a single click.
+- Interactive GUI.
 
 ## Usage
 
