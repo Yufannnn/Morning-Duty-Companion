@@ -19,9 +19,12 @@ Morning Duty Companion is a simple web application designed to assist RIB RAs wi
 ### Step 3: Upload the Room List
 
 1. On the Morning Duty Companion website, click on the "Choose a CSV File" button to upload the desired Room List file.
+
    ![Upload Room List](Choose.png)
+
 2. If the file is successfully uploaded and recognized as a CSV file, you will see a success alert message.
    ![Success Alert](Success.png)
+
 3. If you need to do duty for more than one block, you can add another list. The room data of the new block will be appended to the existing name list.
 
 ### Step 4: Add a Boarder Record
