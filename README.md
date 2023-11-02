@@ -4,7 +4,7 @@
 
 Morning Duty Companion is a simple website designed to assist RIB RAs with RIB routine morning duty.
 
-![Morning Duty Companion](docs/Welcome.png)
+![Morning Duty Companion](Morning.png)
 
 ## 🚀 **Features**
 
