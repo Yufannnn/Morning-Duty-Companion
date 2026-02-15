@@ -1,7 +1,7 @@
 ## Morning Duty Companion 🌞
 
 Morning Duty Companion is a simple web tool designed to assist RIB RAs with their RIB routine morning duty. This user guide provides step-by-step instructions on how to effectively use the application.
-![Morning Duty Companion](../Morning.png)
+![Morning Duty Companion](../assets/Morning.png)
 
 ## User Guide 📖
 

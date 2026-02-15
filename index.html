@@ -9,216 +9,264 @@
   <meta name="keywords" content="Morning, Duty, Companion, Tool, Schedule" />
   <title>Morning Duty Companion</title>
   <link rel="stylesheet" href="src/output.css" />
+  <link rel="stylesheet" href="src/ui.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-  <link rel="icon" href="icon.ico" type="image/x-icon" />
+  <link rel="icon" href="assets/icon.ico" type="image/x-icon" />
 </head>
 
-<body class="bg-gray-lighter flex flex-col min-h-screen">
-  <main class="flex-grow">
-    <header class="bg-green-dark text-white flex justify-center">
-      <nav>
-        <div class="container mx-auto px-4 py-4">
-          <a href="#" class="text-white text-3xl font-bold hover:underline">
-            <span id="typed-text"></span>
-          </a>
+<body class="mdc-body">
+  <div class="mdc-shell">
+    <header class="mdc-header">
+      <div class="mdc-header__inner">
+        <div class="mdc-brand">
+          <h1 class="mdc-title"><span id="typed-text"></span></h1>
+          <p class="mdc-subtitle">Absentees, appliances, and message in one place</p>
         </div>
-      </nav>
-      <img src="welcome.gif" alt="Welcome GIF" class="mt-2 float-right" style="width: 64px; height: 64px;" />
+        <div class="mdc-header__badge">
+          <img src="assets/welcome.gif" alt="Welcome" class="mdc-header__gif" />
+        </div>
+      </div>
     </header>
 
-    <div class="overflow-x-auto mt-4 mx-2 bg-white rounded-md shadow-md">
-      <table id="table" class="min-w-full rounded-md">
-        <thead>
-          <tr>
-            <th id="name_header"
-                class="px-6 py-1 bg-gray-light border-b border-green-dark border-r text-center cursor-pointer hover:bg-green-light hover:text-white transition">
-              Name
-            </th>
-            <th id="reason_header"
-                class="px-6 py-1 bg-gray-light border-b border-green-dark border-r text-center cursor-pointer hover:bg-green-light hover:text-white transition">
-              Reason
-            </th>
-            <th class="px-6 py-1 bg-gray-light border-b border-green-dark text-center">
-              Remove
-            </th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+    <main class="mdc-main">
+      <div class="mdc-container">
+        <div id="alert" class="mdc-alert"></div>
 
-    <div class="flex flex-col bg-white items-center px-4 py-3 rounded relative mt-4 mx-2 shadow shadow-md">
-      <h2 class="text-lg font-semibold mb-2">Boarders Who Has not Left for School</h2>
-      <div class="w-3/4 space-y-2">
-        <!-- Name Dropdown -->
-        <select id="name_dropdown"
-          class="w-full p-2 rounded-md shadow-inner border border-gray-light transition duration-300 ease-in-out hover:bg-gray-lighter hover:shadow-md focus:bg-green-light">
-          <option value="0">Select a name</option>
-        </select>
+        <div class="mdc-layout">
+          <div class="mdc-stack">
+            <section class="mdc-card">
+              <div class="mdc-card__head">
+                <h2 class="mdc-card__title">Absentees</h2>
+                <div class="mdc-headright">
+                  <p class="mdc-card__hint">Click headers to sort</p>
+                  <span class="mdc-pill" title="Current absent records">
+                    <span class="mdc-pill__label">Count</span>
+                    <span id="absent_count" class="mdc-pill__value">0</span>
+                  </span>
+                </div>
+              </div>
+              <div class="mdc-tablewrap">
+                <table id="table" class="mdc-table">
+                  <thead>
+                    <tr>
+                      <th id="name_header" class="cursor-pointer">Name</th>
+                      <th id="reason_header" class="cursor-pointer">Reason</th>
+                      <th>Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                <div id="absent_empty" class="mdc-empty">
+                  <div class="mdc-empty__title">No absentees yet</div>
+                  <div class="mdc-empty__hint">Add a record to start building the message.</div>
+                </div>
+              </div>
+            </section>
 
-        <!-- Name Text Input -->
-        <input type="text" id="name_text" placeholder="Enter a name"
-          class="w-full p-2 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500" />
+            <section class="mdc-card">
+              <div class="mdc-card__head">
+                <h2 class="mdc-card__title">Add Absentee</h2>
+                <p class="mdc-card__hint">Choose or type</p>
+              </div>
+              <div class="mdc-card__body mdc-field">
+                <div class="mdc-grid2">
+                  <div>
+                    <select id="name_dropdown">
+                      <option value="0">Select a name</option>
+                    </select>
+                  </div>
+                  <div>
+                    <input type="text" id="name_text" placeholder="Or type a name" />
+                  </div>
+                </div>
+
+                <div style="height: 10px;"></div>
+
+                <div class="mdc-grid2">
+                  <div>
+                    <select id="reason_dropdown">
+                      <option value="0">Select a reason</option>
+                      <option value="MC">MC</option>
+                      <option value="unwell">Unwell</option>
+                      <option value="parent letter">Parent letter</option>
+                      <option value="HBL">Home based learning</option>
+                      <option value="gap day">Gap day</option>
+                      <option value="late school day">Late school day</option>
+                      <option value="teacher parent day">Teacher parent day</option>
+                      <option value="overslept">Overslept</option>
+                    </select>
+                  </div>
+                  <div>
+                    <input type="text" id="reason_text" placeholder="Or type a reason" />
+                  </div>
+                </div>
+
+                <div style="height: 10px;"></div>
+
+                <label class="mdc-check" title="Adds both A and B from the same room using the selected name (e.g. 6.05/A and 6.05/B).">
+                  <input id="add_roommates" type="checkbox" />
+                  <span>Add roommate too (A + B)</span>
+                </label>
+
+                <div class="mdc-actions">
+                  <button id="add" class="mdc-btn">Add Record</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="mdc-card">
+              <div class="mdc-card__head">
+                <h2 class="mdc-card__title">Appliances Left On</h2>
+                <div class="mdc-headright">
+                  <p class="mdc-card__hint">Rooms to follow up</p>
+                  <span class="mdc-pill" title="Current appliance records">
+                    <span class="mdc-pill__label">Count</span>
+                    <span id="appliance_count" class="mdc-pill__value">0</span>
+                  </span>
+                </div>
+              </div>
+              <div class="mdc-tablewrap">
+                <table id="appliance_table" class="mdc-table">
+                  <thead>
+                    <tr>
+                      <th id="appliance_room_header" class="cursor-pointer">Room</th>
+                      <th id="appliance_name_header" class="cursor-pointer">Appliance</th>
+                      <th>Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                <div id="appliance_empty" class="mdc-empty">
+                  <div class="mdc-empty__title">No appliances recorded</div>
+                  <div class="mdc-empty__hint">Use Add Appliance to capture rooms to follow up.</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="mdc-card">
+              <div class="mdc-card__head">
+                <h2 class="mdc-card__title">Add Appliance</h2>
+                <p class="mdc-card__hint">Level + room + appliance</p>
+              </div>
+              <div class="mdc-card__body mdc-field">
+                <div class="mdc-grid2">
+                  <div>
+                    <select id="level_dropdown">
+                      <option value="0">Select level</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                    </select>
+                  </div>
+                  <div>
+                    <select id="room_dropdown">
+                      <option value="0">Select room</option>
+                      <option value="01">01</option>
+                      <option value="02">02</option>
+                      <option value="03">03</option>
+                      <option value="04">04</option>
+                      <option value="05">05</option>
+                      <option value="06">06</option>
+                      <option value="07">07</option>
+                      <option value="08">08</option>
+                      <option value="09">09</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      <option value="13">13</option>
+                      <option value="14">14</option>
+                      <option value="15">15</option>
+                      <option value="16">16</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style="height: 10px;"></div>
+
+                <div class="mdc-grid2">
+                  <div>
+                    <select id="appliance_dropdown">
+                      <option value="0">Select appliance</option>
+                      <option value="room light">Room light</option>
+                      <option value="table light">Table light</option>
+                      <option value="toilet light">Toilet light</option>
+                      <option value="fan">Fan</option>
+                      <option value="heater">Heater</option>
+                    </select>
+                  </div>
+                  <div>
+                    <input type="text" id="appliance_text" placeholder="Or type an appliance" />
+                  </div>
+                </div>
+
+                <div class="mdc-actions">
+                  <button id="add_appliance" class="mdc-btn">Add Appliance Record</button>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <aside class="mdc-sticky">
+            <section class="mdc-card">
+              <div class="mdc-card__head">
+                <h2 class="mdc-card__title">Message</h2>
+                <div class="mdc-headright">
+                  <p class="mdc-card__hint">Generate, then copy</p>
+                  <span class="mdc-pill" title="Message length (characters)">
+                    <span class="mdc-pill__label">Chars</span>
+                    <span id="message_count" class="mdc-pill__value">0</span>
+                  </span>
+                </div>
+              </div>
+              <div class="mdc-card__body mdc-field">
+                <select id="block_dropdown">
+                  <option value="none">-- Select Block --</option>
+                  <option value="H1">Hullett 1</option>
+                  <option value="H2">Hullett 2</option>
+                  <option value="H3">Hullett 3</option>
+                </select>
+
+                <div style="height: 10px;"></div>
+
+                <textarea id="message" placeholder="Generate message..."></textarea>
+
+                <div class="mdc-actions">
+                  <button id="generate" class="mdc-btn">Generate Message</button>
+                  <button id="copy" class="mdc-btn mdc-btn--ghost">Copy to Clipboard</button>
+                </div>
+              </div>
+            </section>
+          </aside>
+        </div>
       </div>
+    </main>
 
-      <div class="w-3/4 space-y-2 mt-4">
-        <!-- Reason Dropdown -->
-        <select id="reason_dropdown"
-          class="w-full p-2 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
-          <option value="0">Select a reason</option>
-          <option value="MC">MC</option>
-          <option value="unwell">Unwell</option>
-          <option value="parent letter">Parent letter</option>
-          <option value="HBL">Home based learning</option>
-          <option value="gap day">Gap day</option>
-          <option value="late school day">Late school day</option>
-          <option value="teacher parent day">Teacher parent day</option>
-          <option value="overslept">Overslept</option>
-        </select>
-
-        <!-- Reason Text Input -->
-        <input type="text" id="reason_text" placeholder="Enter a reason"
-          class="w-full p-2 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500" />
+    <footer class="mdc-footer">
+      <div class="mdc-footer__inner">
+        <div>
+          Refer to the
+          <a href="https://yufannnn.github.io/MorningDutyCompanion/">user guide</a>
+          for more information.
+        </div>
+        <div>&copy; 2026 Yufan. All rights reserved.</div>
       </div>
-
-      <button id="add"
-        class="mt-4 bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
-        Add Record
-      </button>
-    </div>
-
-    <div class="overflow-x-auto mt-4 mx-2 bg-white rounded-md shadow-md">
-      <table id="appliance_table" class="min-w-full rounded-md">
-        <thead>
-          <tr>
-            <th id="appliance_room_header"
-                class="px-6 py-1 bg-gray-light border-b border-green-dark border-r text-center cursor-pointer hover:bg-green-light hover:text-white transition">
-              Room
-            </th>
-            <th id="appliance_name_header"
-                class="px-6 py-1 bg-gray-light border-b border-green-dark border-r text-center cursor-pointer hover:bg-green-light hover:text-white transition">
-              Appliance
-            </th>
-            <th class="px-6 py-1 bg-gray-light border-b border-green-dark text-center">
-              Remove
-            </th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-
-
-    <div class="flex flex-col bg-white items-center px-4 py-3 rounded relative mt-4 mx-2 shadow shadow-md">
-      <h2 class="text-lg font-semibold mb-2">Room with Appliance Left On</h2>
-
-      <!-- Room Selection (Level + Number side by side) -->
-      <div class="w-3/4 flex space-x-4 mb-2">
-        <select id="level_dropdown"
-          class="w-1/2 p-2 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
-          <option value="0">Select level</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-        </select>
-
-        <select id="room_dropdown"
-          class="w-1/2 p-2 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
-          <option value="0">Select room</option>
-          <option value="01">01</option>
-          <option value="02">02</option>
-          <option value="03">03</option>
-          <option value="04">04</option>
-          <option value="05">05</option>
-          <option value="06">06</option>
-          <option value="07">07</option>
-          <option value="08">08</option>
-          <option value="09">09</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-          <option value="15">15</option>
-        </select>
-      </div>
-
-      <!-- Appliance Selection -->
-      <div class="w-3/4 space-y-2">
-        <select id="appliance_dropdown"
-          class="w-full p-2 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
-          <option value="0">Select appliance</option>
-          <option value="room light">Room light</option>
-          <option value="table light">Table light</option>
-          <option value="toilet light">Toilet light</option>
-          <option value="fan">Fan</option>
-          <option value="heater">Heater</option>
-        </select>
-
-        <input type="text" id="appliance_text" placeholder="Or enter appliance"
-          class="w-full p-2 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500" />
-      </div>
-
-      <!-- Add Appliance Record Button -->
-      <button id="add_appliance"
-        class="mt-4 bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
-        Add Appliance Record
-      </button>
-    </div>
-
-
-    <div class="flex flex-col bg-white items-center px-4 py-3 rounded relative mt-4 mx-2 shadow shadow-md">
-      <div class="mb-2 w-3/4">
-        <select id="block_dropdown"
-          class="w-full p-2 mb-3 rounded-md shadow-inner border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500">
-          <option value="none">-- Select Block --</option>
-          <option value="H1">Hullett 1</option>
-          <option value="H2">Hullett 2</option>
-        </select>
-      </div>
-
-      <div class="mb-2 w-3/4">
-        <textarea id="message" placeholder="Generate Message"
-          class="rounded-md shadow-inner w-full h-64 p-2 border border-gray-light hover:bg-gray-lighter hover:shadow-md focus:bg-green-light transition duration-500"></textarea>
-      </div>
-
-      <div class="flex space-x-4">
-        <button id="generate"
-          class="bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
-          Generate Message
-        </button>
-        <button id="copy"
-          class="bg-green-dark hover:bg-green text-white py-1 px-4 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
-          Copy to Clipboard
-        </button>
-      </div>
-    </div>
-
-  </main>
-
-  <footer class="bg-gray py-2 mt-4">
-    <div class="container mx-auto px-4">
-      <p class="text-center text-white text-sm">
-        Please refer to the
-        <a href="https://yufannnn.github.io/MorningDutyCompanion/" class="text-blue underline">user guide</a>
-        for more information.
-      </p>
-      <p class="text-center text-white text-sm">&copy; 2023 Yufan - All rights reserved.</p>
-    </div>
-  </footer>
+    </footer>
+  </div>
 
   <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+  <script src="src/common.js"></script>
   <script src="src/datascript.js"></script>
   <script src="src/addrecordscript.js"></script>
   <script src="src/addappliancescript.js"></script>
   <script src="src/generatescript.js"></script>
   <script src="src/UIscript.js"></script>
+  <script src="src/stats.js"></script>
 </body>
 
 </html>

@@ -1,151 +1,133 @@
-const addBtn = document.getElementById("add");
-addBtn.addEventListener("click", addNameAndReason);
-
-function addNameAndReason() {
-  const nameDropdown = document.getElementById("name_dropdown");
-  const selectedName = nameDropdown.value;
-
-  const nameText = document.getElementById("name_text");
-  const typedName = nameText.value.trim();
-
-  const reasonText = document.getElementById("reason_text");
-  const typedReason = reasonText.value.trim();
-
-  const reasonDropdown = document.getElementById("reason_dropdown");
-  const selectedReason = reasonDropdown.value;
-
-  const table = document.getElementById("table");
-
-  let theName = "";
-  let reason = "";
-
-  // ✅ Prefer typed name if provided, else use dropdown
-  if (typedName !== "") {
-    theName = typedName;
-  } else if (selectedName !== "0") {
-    theName = selectedName;
-  } else {
-    displayError('Please enter or select a name.');
-    return;
-  }
-
-  // ✅ Prefer typed reason if provided, else use dropdown
-  if (typedReason !== "") {
-    reason = typedReason;
-  } else if (selectedReason !== "0") {
-    reason = selectedReason;
-  } else {
-    displayError('Please enter or select a reason.');
-    return;
-  }
-
-  const tbody = table.querySelector("tbody");
-  const row = tbody.insertRow(0);
-  const nameCell = row.insertCell(0);
-  const reasonCell = row.insertCell(1);
-  const removeCell = row.insertCell(2);
-
-  nameCell.innerHTML = theName;
-  reasonCell.innerHTML = reason;
-  removeCell.innerHTML = `
-    <button class="bg-green-dark hover:bg-green text-white px-3 my-1 rounded-md transform transition duration-300 ease-in-out hover:scale-110 hover:shadow-xl">
-      Remove
-    </button>
-  `;
-
-  nameCell.classList.add('text-center', 'border-r', 'border-green-dark');
-  reasonCell.classList.add('text-center', 'border-r', 'border-green-dark');
-  removeCell.classList.add('text-center');
-  row.classList.add('border-b', 'border-green-dark');
-
-  // ✅ Add remove logic
-  const removeButton = removeCell.querySelector("button");
-  removeButton.addEventListener("click", function () {
-    table.deleteRow(row.rowIndex);
-    displaySuccess(`Successfully removed ${theName} : ${reason}.`);
-  });
-
-  // ✅ Reset form
-  nameDropdown.value = "0";
-  nameText.value = "";
-  reasonDropdown.value = "0";
-  reasonText.value = "";
-
-  displaySuccess(`Successfully added ${theName} : ${reason}.`);
-}
-
-function displaySuccess(message) {
-  alertContainer.innerHTML = '';
-
-  const successAlert = document.createElement('div');
-  successAlert.classList.add(
-    'bg-green-lighter', 'border', 'border-green-dark', 'text-green',
-    'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2',
-    'hover:bg-green-light', 'hover:text-white', 'hover:shadow-md'
-  );
-  successAlert.setAttribute('role', 'alert');
-
-  successAlert.innerHTML = `
-    <strong class="font-bold">Success!</strong>
-    <span class="block sm:inline">${message}</span>
-  `;
-
-  alertContainer.appendChild(successAlert);
-}
-
-function displayError(message) {
-  alertContainer.innerHTML = '';
-
-  const errorAlert = document.createElement('div');
-  errorAlert.classList.add(
-    'bg-red-lighter', 'border', 'border-red-dark', 'text-red',
-    'px-4', 'py-3', 'rounded', 'relative', 'mt-2', 'mx-2',
-    'hover:bg-red-light', 'hover:text-white', 'hover:shadow-md'
-  );
-  errorAlert.setAttribute('role', 'alert');
-
-  errorAlert.innerHTML = `
-    <strong class="font-bold">Error!</strong>
-    <span class="block sm:inline">${message}</span>
-  `;
-
-  alertContainer.appendChild(errorAlert);
-}
-
+// Absent boarders: add/remove rows and sorting.
 document.addEventListener("DOMContentLoaded", () => {
+  if (!window.MDC) return;
+
+  const addBtn = document.getElementById("add");
   const table = document.getElementById("table");
-  const nameHeader = document.getElementById("name_header");
-  const reasonHeader = document.getElementById("reason_header");
+  if (!addBtn || !table) return;
 
-  const sortStates = { name: 'none', reason: 'none' };
+  addBtn.addEventListener("click", () => {
+    const nameDropdown = document.getElementById("name_dropdown");
+    const nameText = document.getElementById("name_text");
+    const reasonDropdown = document.getElementById("reason_dropdown");
+    const reasonText = document.getElementById("reason_text");
+    const addRoommatesEl = document.getElementById("add_roommates");
 
-  nameHeader.addEventListener("click", () => sortTableByColumn(0, 'name'));
-  reasonHeader.addEventListener("click", () => sortTableByColumn(1, 'reason'));
+    const selectedName = nameDropdown ? nameDropdown.value : "0";
+    const typedName = nameText ? nameText.value.trim() : "";
+    const selectedReason = reasonDropdown ? reasonDropdown.value : "0";
+    const typedReason = reasonText ? reasonText.value.trim() : "";
 
-  function sortTableByColumn(colIndex, key) {
+    const theName = typedName !== "" ? typedName : selectedName !== "0" ? selectedName : "";
+    const reason = typedReason !== "" ? typedReason : selectedReason !== "0" ? selectedReason : "";
+    const addRoommates = !!(addRoommatesEl && addRoommatesEl.checked);
+
+    if (!theName) return MDC.alert.error("Please enter or select a name.");
+    if (!reason) return MDC.alert.error("Please enter or select a reason.");
+
     const tbody = table.querySelector("tbody");
-    const rows = Array.from(tbody.rows);
+    if (!tbody) return;
 
-    const currentState = sortStates[key];
-    const nextState = currentState === 'asc' ? 'desc' : 'asc';
-    sortStates[key] = nextState;
-
-    rows.sort((a, b) => {
-      const textA = a.cells[colIndex].innerText.trim().toLowerCase();
-      const textB = b.cells[colIndex].innerText.trim().toLowerCase();
-      if (textA < textB) return nextState === 'asc' ? -1 : 1;
-      if (textA > textB) return nextState === 'asc' ? 1 : -1;
-      return 0;
-    });
-
-    for (const row of rows) {
-      tbody.appendChild(row);
+    function isAlreadyAdded(name) {
+      for (const r of Array.from(tbody.rows)) {
+        if (r.cells && r.cells[0] && r.cells[0].textContent === name) return true;
+      }
+      return false;
     }
 
-    nameHeader.innerHTML = "Name";
-    reasonHeader.innerHTML = "Reason";
-    const arrow = nextState === 'asc' ? ' ▲' : ' ▼';
-    if (key === 'name') nameHeader.innerHTML += arrow;
-    if (key === 'reason') reasonHeader.innerHTML += arrow;
-  }
+    function insertRow(name, reason) {
+      const row = tbody.insertRow(0);
+      row.classList.add("mdc-row-new");
+      const nameCell = row.insertCell(0);
+      const reasonCell = row.insertCell(1);
+      const removeCell = row.insertCell(2);
+
+      // textContent avoids injecting HTML from user input.
+      nameCell.textContent = name;
+
+      const tag = document.createElement("span");
+      tag.className = "mdc-tag";
+      const r = String(reason || "").trim();
+      const rLower = r.toLowerCase();
+      if (rLower === "mc" || rLower === "unwell") tag.classList.add("mdc-tag--sick");
+      else if (rLower.includes("parent")) tag.classList.add("mdc-tag--note");
+      tag.textContent = r;
+      reasonCell.textContent = "";
+      reasonCell.appendChild(tag);
+
+      const btn = document.createElement("button");
+      btn.className = "mdc-mini-btn";
+      btn.textContent = "Remove";
+      removeCell.appendChild(btn);
+
+      btn.addEventListener("click", () => {
+        row.classList.add("mdc-row-out");
+        window.setTimeout(() => row.remove(), 190);
+        MDC.alert.success(`Successfully removed ${name} : ${reason}.`);
+      });
+
+      window.setTimeout(() => row.classList.remove("mdc-row-new"), 520);
+    }
+
+    let namesToAdd = [theName];
+    let roommateResolved = false;
+
+    if (addRoommates) {
+      const src = selectedName !== "0" ? selectedName : theName;
+      const m = /^(\d+\.\d{2})\/([A-Za-z])\b/.exec(src);
+      if (m && typeof nameDatabase !== "undefined" && Array.isArray(nameDatabase)) {
+        const prefix = `${m[1]}/`;
+        const matches = nameDatabase.filter((n) => typeof n === "string" && n.startsWith(prefix));
+        if (matches.length >= 2) {
+          namesToAdd = matches;
+          roommateResolved = true;
+        } else if (matches.length === 1) {
+          namesToAdd = matches;
+          roommateResolved = true;
+        }
+      }
+    }
+
+    let added = 0;
+    let skipped = 0;
+    for (const n of namesToAdd) {
+      if (!n) continue;
+      if (isAlreadyAdded(n)) {
+        skipped++;
+        continue;
+      }
+      insertRow(n, reason);
+      added++;
+    }
+
+    if (nameDropdown) nameDropdown.value = "0";
+    if (nameText) nameText.value = "";
+    if (reasonDropdown) reasonDropdown.value = "0";
+    if (reasonText) reasonText.value = "";
+    if (addRoommatesEl) addRoommatesEl.checked = false;
+
+    if (added === 0) {
+      return MDC.alert.error("That record is already in the list.");
+    }
+
+    if (addRoommates && !roommateResolved) {
+      MDC.alert.success(
+        added === 1
+          ? `Added 1 record. (Could not auto-add roommate; select a name like 6.05/A ... from the dropdown.)`
+          : `Added ${added} records. (Could not auto-add roommate; select a name like 6.05/A ... from the dropdown.)`
+      );
+      return;
+    }
+
+    if (added === 1) MDC.alert.success(`Successfully added ${namesToAdd[0]} : ${reason}.`);
+    else MDC.alert.success(`Successfully added ${added} records for: ${reason}.` + (skipped ? ` (${skipped} skipped)` : ""));
+  });
+
+  MDC.table.installSort({
+    tableId: "table",
+    columns: [
+      { headerId: "name_header", colIndex: 0, key: "name", label: "Name" },
+      { headerId: "reason_header", colIndex: 1, key: "reason", label: "Reason" },
+    ],
+  });
 });
