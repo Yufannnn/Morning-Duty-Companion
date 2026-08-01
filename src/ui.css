@@ -140,6 +140,8 @@ textarea {
   align-items: baseline;
   gap: 12px;
   min-width: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .mdc-title {
@@ -172,6 +174,8 @@ textarea {
   display: flex;
   align-items: center;
   gap: 10px;
+  position: relative;
+  z-index: 2;
 }
 
 .mdc-header__gif {
@@ -188,6 +192,36 @@ textarea {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mdc-sparkles::before,
+.mdc-sparkles::after {
+  position: absolute;
+  left: -50vw;
+  width: max-content;
+  color: rgba(255, 255, 255, 0.34);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 18px;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba(255, 247, 170, 0.72);
+  will-change: transform, opacity;
+}
+
+.mdc-sparkles::before {
+  content: "\2726  \2605  \00b7  \2726  \00b7  \2605  \2726  \00b7  \2605  \2726  \00b7  \2605";
+  top: 5px;
+  animation: mdc-star-stream-forward 13s linear infinite;
+}
+
+.mdc-sparkles::after {
+  content: "\00b7  \2605  \2726  \00b7  \2726  \2605  \00b7  \2726  \2605  \00b7  \2726  \2605";
+  bottom: 3px;
+  color: rgba(255, 232, 112, 0.32);
+  font-size: 11px;
+  animation: mdc-star-stream-reverse 18s linear infinite;
 }
 
 .mdc-sparkles span {
@@ -774,6 +808,36 @@ textarea {
   }
 }
 
+@keyframes mdc-star-stream-forward {
+  0% {
+    opacity: 0.35;
+    transform: translate3d(0, 0, 0) rotate(-1deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate3d(90vw, 2px, 0) rotate(1deg);
+  }
+  100% {
+    opacity: 0.35;
+    transform: translate3d(180vw, 0, 0) rotate(-1deg);
+  }
+}
+
+@keyframes mdc-star-stream-reverse {
+  0% {
+    opacity: 0.25;
+    transform: translate3d(180vw, 0, 0) rotate(1deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate3d(90vw, -2px, 0) rotate(-1deg);
+  }
+  100% {
+    opacity: 0.25;
+    transform: translate3d(0, 0, 0) rotate(1deg);
+  }
+}
+
 @keyframes mdc-alert-in {
   from {
     opacity: 0;
@@ -859,6 +923,8 @@ textarea {
   .mdc-card__icon,
   .mdc-empty__title,
   .mdc-sparkles span,
+  .mdc-sparkles::before,
+  .mdc-sparkles::after,
   .mdc-header::after {
     animation: none !important;
     transition: none !important;
