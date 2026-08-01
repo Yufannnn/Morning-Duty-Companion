@@ -29,16 +29,10 @@ body {
 body.mdc-body {
   margin: 0;
   color: var(--mdc-ink);
-  background:
-    radial-gradient(circle at 12% 10%, rgba(255, 209, 102, 0.42), transparent 24%),
-    radial-gradient(circle at 92% 8%, rgba(167, 139, 250, 0.30), transparent 25%),
-    radial-gradient(circle at 82% 82%, rgba(102, 217, 239, 0.28), transparent 28%),
-    linear-gradient(135deg, #fffdf4 0%, #f2fffd 50%, #fff7fb 100%);
-  background-size: 110% 110%;
+  background: #fffdf4;
   font-family: var(--mdc-font);
   line-height: 1.35;
   overflow-x: hidden;
-  animation: mdc-sky-drift 16s ease-in-out infinite alternate;
 }
 
 button,
@@ -92,40 +86,7 @@ textarea {
   flex-direction: column;
   position: relative;
   isolation: isolate;
-  background:
-    linear-gradient(rgba(255, 253, 244, 0.32), rgba(255, 253, 244, 0.50)),
-    url("../assets/background.png") center bottom / cover fixed;
-}
-
-.mdc-shell::before,
-.mdc-shell::after {
-  content: "";
-  position: fixed;
-  z-index: -1;
-  width: 180px;
-  height: 180px;
-  border: 3px solid var(--mdc-ink);
-  pointer-events: none;
-  opacity: 0.10;
-}
-
-.mdc-shell::before {
-  left: -75px;
-  top: 22%;
-  border-radius: 42% 58% 62% 38%;
-  background: var(--mdc-yellow);
-  animation: mdc-doodle-float 9s ease-in-out infinite;
-}
-
-.mdc-shell::after {
-  right: -85px;
-  bottom: 12%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, var(--mdc-ink) 2px, transparent 2.5px),
-    var(--mdc-coral);
-  background-size: 14px 14px;
-  animation: mdc-doodle-float 11s ease-in-out infinite reverse;
+  background: url("../assets/background.png") center bottom / cover fixed;
 }
 
 .mdc-main {
@@ -744,11 +705,6 @@ textarea {
   }
 }
 
-@keyframes mdc-sky-drift {
-  from { background-position: 0% 0%; }
-  to { background-position: 100% 60%; }
-}
-
 @keyframes mdc-header-flow {
   0% {
     background-position: 0% 30%;
@@ -777,11 +733,6 @@ textarea {
 @keyframes mdc-twinkle {
   0%, 100% { opacity: 0.35; transform: scale(0.75) rotate(0deg); }
   50% { opacity: 1; transform: scale(1.25) rotate(22deg); }
-}
-
-@keyframes mdc-doodle-float {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(12px, -18px, 0) rotate(12deg); }
 }
 
 @keyframes mdc-alert-in {
@@ -857,7 +808,6 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.mdc-body,
   .mdc-card,
   .mdc-row-new td,
   .mdc-btn::after,
@@ -870,9 +820,7 @@ textarea {
   .mdc-card__icon,
   .mdc-empty__title,
   .mdc-sparkles span,
-  .mdc-header::after,
-  .mdc-shell::before,
-  .mdc-shell::after {
+  .mdc-header::after {
     animation: none !important;
     transition: none !important;
   }
@@ -1029,13 +977,9 @@ textarea {
   }
 
   .mdc-shell {
-    background:
-      linear-gradient(rgba(255, 253, 244, 0.24), rgba(255, 253, 244, 0.42)),
-      url("../assets/background.png") center top / cover scroll;
+    background: url("../assets/background.png") center top / cover scroll;
   }
 
-  .mdc-shell::before,
-  .mdc-shell::after,
   .mdc-sparkles {
     animation: none;
   }
