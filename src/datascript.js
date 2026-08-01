@@ -88,7 +88,6 @@ window.nameDatabase = nameDatabase;
 
 window.addEventListener("DOMContentLoaded", () => {
   const dropdown = document.getElementById("name_dropdown");
-  const suggestions = document.getElementById("name_suggestions");
 
   for (const name of nameDatabase) {
     if (dropdown) {
@@ -96,12 +95,6 @@ window.addEventListener("DOMContentLoaded", () => {
       option.value = name;
       option.textContent = name;
       dropdown.appendChild(option);
-    }
-
-    if (suggestions) {
-      const suggestion = document.createElement("option");
-      suggestion.value = name;
-      suggestions.appendChild(suggestion);
     }
   }
 });

@@ -24,6 +24,11 @@
     <header class="mdc-header">
       <div class="mdc-header__inner">
         <div class="mdc-sparkles" aria-hidden="true">
+          <span>&#9733;</span>
+          <span>&#8226;</span>
+          <span>&#10022;</span>
+          <span>&#9733;</span>
+          <span>&#8226;</span>
           <span>✦</span>
           <span>●</span>
           <span>✦</span>
@@ -76,18 +81,26 @@
             <section class="mdc-card mdc-panel--form is-mobile-active" data-mobile-panel="absentees">
               <div class="mdc-card__head">
                 <h2 class="mdc-card__title"><span class="mdc-card__icon" aria-hidden="true">＋</span>Add Absentee</h2>
-                <p class="mdc-card__hint">Choose or type</p>
+                <p class="mdc-card__hint">Choose a boarder</p>
               </div>
               <div class="mdc-card__body mdc-field">
-                <div class="mdc-grid2">
+                <div class="mdc-mobile-name-picker">
+                  <p class="mdc-picker-label">Choose a level</p>
+                  <div class="mdc-choicechips mdc-choicechips--levels" data-name-level aria-label="Filter boarders by level">
+                    <button type="button" data-value="6" aria-pressed="false">Level 6</button>
+                    <button type="button" data-value="7" aria-pressed="false">Level 7</button>
+                    <button type="button" data-value="8" aria-pressed="false">Level 8</button>
+                  </div>
+                  <select id="mobile_name_dropdown" aria-label="Select a boarder" disabled>
+                    <option value="0">Choose a level first</option>
+                  </select>
+                </div>
+
+                <div>
                   <div class="mdc-desktop-choice-wrap">
                     <select id="name_dropdown" class="mdc-desktop-choice">
                       <option value="0">Select a name</option>
                     </select>
-                  </div>
-                  <div>
-                    <input type="search" id="name_text" list="name_suggestions" placeholder="Search name or room" autocomplete="off" />
-                    <datalist id="name_suggestions"></datalist>
                   </div>
                 </div>
 

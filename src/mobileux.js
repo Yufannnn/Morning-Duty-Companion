@@ -34,6 +34,62 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   setPanel("absentees", false);
 
+  const mobileNameDropdown = document.getElementById("mobile_name_dropdown");
+  const nameDropdown = document.getElementById("name_dropdown");
+  const nameLevelButtons = Array.from(document.querySelectorAll("[data-name-level] button"));
+  let selectedNameLevel = "";
+
+  function syncNameLevelButtons() {
+    for (const button of nameLevelButtons) {
+      const active = button.dataset.value === selectedNameLevel;
+      button.classList.toggle("is-selected", active);
+      button.setAttribute("aria-pressed", String(active));
+    }
+  }
+
+  function fillMobileNames(level) {
+    if (!mobileNameDropdown) return;
+
+    mobileNameDropdown.innerHTML = "";
+    const placeholder = document.createElement("option");
+    placeholder.value = "0";
+    placeholder.textContent = level ? `Select a Level ${level} boarder` : "Choose a level first";
+    mobileNameDropdown.appendChild(placeholder);
+
+    if (!level || !Array.isArray(window.nameDatabase)) {
+      mobileNameDropdown.disabled = true;
+      return;
+    }
+
+    const levelPrefix = `${level}.`;
+    for (const name of window.nameDatabase.filter((entry) =>
+      typeof entry === "string" && entry.startsWith(levelPrefix))) {
+      const option = document.createElement("option");
+      option.value = name;
+      option.textContent = name;
+      mobileNameDropdown.appendChild(option);
+    }
+    mobileNameDropdown.disabled = false;
+  }
+
+  for (const button of nameLevelButtons) {
+    button.addEventListener("click", () => {
+      selectedNameLevel = selectedNameLevel === button.dataset.value ? "" : button.dataset.value;
+      syncNameLevelButtons();
+      fillMobileNames(selectedNameLevel);
+      if (nameDropdown) nameDropdown.value = "0";
+    });
+  }
+
+  if (mobileNameDropdown) {
+    mobileNameDropdown.addEventListener("change", () => {
+      if (nameDropdown) nameDropdown.value = mobileNameDropdown.value;
+    });
+  }
+
+  fillMobileNames("");
+  syncNameLevelButtons();
+
   const choiceConfig = {
     reason: { selectId: "reason_dropdown", customId: "reason_text" },
     level: { selectId: "level_dropdown" },
@@ -114,9 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (Array.isArray(state.absentees) && addAbsent) {
       for (const record of state.absentees) {
         if (!Array.isArray(record) || record.length < 2) continue;
-        const nameInput = document.getElementById("name_text");
         const reasonInput = document.getElementById("reason_text");
-        if (nameInput) nameInput.value = record[0];
+        if (nameDropdown) nameDropdown.value = record[0];
         if (reasonInput) reasonInput.value = record[1];
         addAbsent.click();
       }
@@ -158,6 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
       syncChoiceGroup("reason");
       syncChoiceGroup("level");
       syncChoiceGroup("appliance");
+      if (mobileNameDropdown) mobileNameDropdown.value = "0";
     }, 0);
   });
   if (absentBody) stateObserver.observe(absentBody, { childList: true });
@@ -192,7 +248,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const enterBindings = [
-    ["name_text", addAbsent],
     ["reason_text", addAbsent],
     ["appliance_text", addAppliance],
   ];
