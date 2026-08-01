@@ -1,3 +1,4 @@
 node_modules/
+dist/
 env/Lib/site-packages/six.py
 env/

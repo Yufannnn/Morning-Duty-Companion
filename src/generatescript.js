@@ -19,9 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return "all boarders";
   }
 
-  generateBtn.addEventListener("click", () => {
+  function generate(options = {}) {
+    const announce = options.announce !== false;
     if (blockDropdown && blockDropdown.value === "none") {
-      return MDC.alert.error("Please select a block (Hullett 1 / 2 / 3) before generating.");
+      if (announce) MDC.alert.error("Please select a block (Hullett 1 / 2 / 3) before generating.");
+      return false;
     }
 
     const subject = getSubject();
@@ -67,8 +69,26 @@ document.addEventListener("DOMContentLoaded", () => {
     messageTextarea.value = out;
     // Programmatic value changes don't trigger input events; stats.js listens to input.
     messageTextarea.dispatchEvent(new Event("input", { bubbles: true }));
-    MDC.alert.success("Message successfully generated!");
-  });
+    if (announce) MDC.alert.success("Message refreshed!");
+    return true;
+  }
+
+  generateBtn.addEventListener("click", () => generate({ announce: true }));
+
+  let refreshTimer = null;
+  function scheduleGenerate() {
+    if (refreshTimer) window.clearTimeout(refreshTimer);
+    refreshTimer = window.setTimeout(() => generate({ announce: false }), 0);
+  }
+
+  const recordsObserver = new MutationObserver(scheduleGenerate);
+  const absentBody = absentTable.querySelector("tbody");
+  const applianceBody = applianceTable ? applianceTable.querySelector("tbody") : null;
+  if (absentBody) recordsObserver.observe(absentBody, { childList: true });
+  if (applianceBody) recordsObserver.observe(applianceBody, { childList: true });
+  if (blockDropdown) blockDropdown.addEventListener("change", scheduleGenerate);
+
+  MDC.message = { generate, scheduleGenerate };
 
   copyBtn.addEventListener("click", async () => {
     if (!messageTextarea.value.trim()) {
@@ -76,6 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     try {
       await navigator.clipboard.writeText(messageTextarea.value);
+      const originalLabel = copyBtn.textContent;
+      copyBtn.textContent = "Copied ✓";
+      window.setTimeout(() => { copyBtn.textContent = originalLabel; }, 1600);
       MDC.alert.success("Message copied to clipboard!");
     } catch (err) {
       console.error(err);

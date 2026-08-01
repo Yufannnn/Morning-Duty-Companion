@@ -61,9 +61,19 @@ document.addEventListener("DOMContentLoaded", () => {
       removeCell.appendChild(btn);
 
       btn.addEventListener("click", () => {
+        const nextSibling = row.nextSibling;
         row.classList.add("mdc-row-out");
-        window.setTimeout(() => row.remove(), 190);
-        MDC.alert.success(`Successfully removed ${name} : ${reason}.`);
+        const removalTimer = window.setTimeout(() => row.remove(), 190);
+        MDC.undo.offer(`Removed ${name}.`, () => {
+          window.clearTimeout(removalTimer);
+          row.classList.remove("mdc-row-out");
+          if (!row.isConnected) {
+            if (nextSibling && nextSibling.parentElement === tbody) tbody.insertBefore(row, nextSibling);
+            else tbody.appendChild(row);
+          }
+          row.classList.add("mdc-row-new");
+          window.setTimeout(() => row.classList.remove("mdc-row-new"), 520);
+        });
       });
 
       window.setTimeout(() => row.classList.remove("mdc-row-new"), 520);
@@ -75,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addRoommates) {
       const src = selectedName !== "0" ? selectedName : theName;
       const m = /^(\d+\.\d{2})\/([A-Za-z])\b/.exec(src);
-      if (m && typeof nameDatabase !== "undefined" && Array.isArray(nameDatabase)) {
+      if (m && Array.isArray(window.nameDatabase)) {
         const prefix = `${m[1]}/`;
-        const matches = nameDatabase.filter((n) => typeof n === "string" && n.startsWith(prefix));
+        const matches = window.nameDatabase.filter((n) => typeof n === "string" && n.startsWith(prefix));
         if (matches.length >= 2) {
           namesToAdd = matches;
           roommateResolved = true;

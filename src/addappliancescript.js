@@ -57,9 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
     removeCell.appendChild(btn);
 
     btn.addEventListener("click", () => {
+      const nextSibling = row.nextSibling;
       row.classList.add("mdc-row-out");
-      window.setTimeout(() => row.remove(), 190);
-      MDC.alert.success(`Removed ${fullRoom} - ${appliance}.`);
+      const removalTimer = window.setTimeout(() => row.remove(), 190);
+      MDC.undo.offer(`Removed ${fullRoom} - ${appliance}.`, () => {
+        window.clearTimeout(removalTimer);
+        row.classList.remove("mdc-row-out");
+        if (!row.isConnected) {
+          if (nextSibling && nextSibling.parentElement === tbody) tbody.insertBefore(row, nextSibling);
+          else tbody.appendChild(row);
+        }
+        row.classList.add("mdc-row-new");
+        window.setTimeout(() => row.classList.remove("mdc-row-new"), 520);
+      });
     });
 
     if (levelEl) levelEl.value = "0";

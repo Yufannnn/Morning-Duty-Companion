@@ -8,12 +8,12 @@
   <meta name="description" content="Morning Duty Companion - A tool to assist with morning duties." />
   <meta name="keywords" content="Morning, Duty, Companion, Tool, Schedule" />
   <title>Morning Duty Companion</title>
-  <link rel="stylesheet" href="src/output.css" />
-  <link rel="stylesheet" href="src/ui.css" />
+  <link rel="stylesheet" href="./src/output.css" />
+  <link rel="stylesheet" href="./src/ui.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <link rel="icon" href="assets/icon.ico" type="image/x-icon" />
@@ -23,6 +23,11 @@
   <div class="mdc-shell">
     <header class="mdc-header">
       <div class="mdc-header__inner">
+        <div class="mdc-sparkles" aria-hidden="true">
+          <span>✦</span>
+          <span>●</span>
+          <span>✦</span>
+        </div>
         <div class="mdc-brand">
           <h1 class="mdc-title"><span id="typed-text"></span></h1>
           <p class="mdc-subtitle">Absentees, appliances, and message in one place</p>
@@ -39,9 +44,9 @@
 
         <div class="mdc-layout">
           <div class="mdc-stack">
-            <section class="mdc-card">
+            <section class="mdc-card mdc-panel--list is-mobile-active" data-mobile-panel="absentees">
               <div class="mdc-card__head">
-                <h2 class="mdc-card__title">Absentees</h2>
+                <h2 class="mdc-card__title"><span class="mdc-card__icon" aria-hidden="true">☀</span>Absentees</h2>
                 <div class="mdc-headright">
                   <p class="mdc-card__hint">Click headers to sort</p>
                   <span class="mdc-pill" title="Current absent records">
@@ -68,28 +73,42 @@
               </div>
             </section>
 
-            <section class="mdc-card">
+            <section class="mdc-card mdc-panel--form is-mobile-active" data-mobile-panel="absentees">
               <div class="mdc-card__head">
-                <h2 class="mdc-card__title">Add Absentee</h2>
+                <h2 class="mdc-card__title"><span class="mdc-card__icon" aria-hidden="true">＋</span>Add Absentee</h2>
                 <p class="mdc-card__hint">Choose or type</p>
               </div>
               <div class="mdc-card__body mdc-field">
                 <div class="mdc-grid2">
-                  <div>
-                    <select id="name_dropdown">
+                  <div class="mdc-desktop-choice-wrap">
+                    <select id="name_dropdown" class="mdc-desktop-choice">
                       <option value="0">Select a name</option>
                     </select>
                   </div>
                   <div>
-                    <input type="text" id="name_text" placeholder="Or type a name" />
+                    <input type="search" id="name_text" list="name_suggestions" placeholder="Search name or room" autocomplete="off" />
+                    <datalist id="name_suggestions"></datalist>
                   </div>
                 </div>
 
                 <div style="height: 10px;"></div>
 
+                <div class="mdc-choicechips" data-choice-group="reason" aria-label="Common absence reasons">
+                  <button type="button" data-value="MC" aria-pressed="false">MC</button>
+                  <button type="button" data-value="unwell" aria-pressed="false">Unwell</button>
+                  <button type="button" data-value="parent letter" aria-pressed="false">Parent letter</button>
+                  <button type="button" data-value="HBL" aria-pressed="false">HBL</button>
+                  <button type="button" data-value="gap day" aria-pressed="false">Gap day</button>
+                  <button type="button" data-value="late school day" aria-pressed="false">Late school day</button>
+                  <button type="button" data-value="teacher parent day" aria-pressed="false">Teacher parent day</button>
+                  <button type="button" data-value="overslept" aria-pressed="false">Overslept</button>
+                </div>
+
+                <div style="height: 10px;"></div>
+
                 <div class="mdc-grid2">
-                  <div>
-                    <select id="reason_dropdown">
+                  <div class="mdc-desktop-choice-wrap">
+                    <select id="reason_dropdown" class="mdc-desktop-choice">
                       <option value="0">Select a reason</option>
                       <option value="MC">MC</option>
                       <option value="unwell">Unwell</option>
@@ -102,7 +121,7 @@
                     </select>
                   </div>
                   <div>
-                    <input type="text" id="reason_text" placeholder="Or type a reason" />
+                    <input type="text" id="reason_text" placeholder="Custom reason (optional)" />
                   </div>
                 </div>
 
@@ -114,14 +133,14 @@
                 </label>
 
                 <div class="mdc-actions">
-                  <button id="add" class="mdc-btn">Add Record</button>
+                  <button id="add" class="mdc-btn">Add Absentee</button>
                 </div>
               </div>
             </section>
 
-            <section class="mdc-card">
+            <section class="mdc-card mdc-panel--list" data-mobile-panel="appliances">
               <div class="mdc-card__head">
-                <h2 class="mdc-card__title">Appliances Left On</h2>
+                <h2 class="mdc-card__title"><span class="mdc-card__icon" aria-hidden="true">⚡</span>Appliances Left On</h2>
                 <div class="mdc-headright">
                   <p class="mdc-card__hint">Rooms to follow up</p>
                   <span class="mdc-pill" title="Current appliance records">
@@ -148,15 +167,23 @@
               </div>
             </section>
 
-            <section class="mdc-card">
+            <section class="mdc-card mdc-panel--form" data-mobile-panel="appliances">
               <div class="mdc-card__head">
-                <h2 class="mdc-card__title">Add Appliance</h2>
+                <h2 class="mdc-card__title"><span class="mdc-card__icon" aria-hidden="true">✦</span>Add Appliance</h2>
                 <p class="mdc-card__hint">Level + room + appliance</p>
               </div>
               <div class="mdc-card__body mdc-field">
+                <div class="mdc-choicechips mdc-choicechips--levels" data-choice-group="level" aria-label="Select level">
+                  <button type="button" data-value="6" aria-pressed="false">Level 6</button>
+                  <button type="button" data-value="7" aria-pressed="false">Level 7</button>
+                  <button type="button" data-value="8" aria-pressed="false">Level 8</button>
+                </div>
+
+                <div style="height: 10px;"></div>
+
                 <div class="mdc-grid2">
-                  <div>
-                    <select id="level_dropdown">
+                  <div class="mdc-desktop-choice-wrap">
+                    <select id="level_dropdown" class="mdc-desktop-choice">
                       <option value="0">Select level</option>
                       <option value="6">6</option>
                       <option value="7">7</option>
@@ -188,9 +215,19 @@
 
                 <div style="height: 10px;"></div>
 
+                <div class="mdc-choicechips" data-choice-group="appliance" aria-label="Common appliances">
+                  <button type="button" data-value="room light" aria-pressed="false">Room light</button>
+                  <button type="button" data-value="table light" aria-pressed="false">Table light</button>
+                  <button type="button" data-value="toilet light" aria-pressed="false">Toilet light</button>
+                  <button type="button" data-value="fan" aria-pressed="false">Fan</button>
+                  <button type="button" data-value="heater" aria-pressed="false">Heater</button>
+                </div>
+
+                <div style="height: 10px;"></div>
+
                 <div class="mdc-grid2">
-                  <div>
-                    <select id="appliance_dropdown">
+                  <div class="mdc-desktop-choice-wrap">
+                    <select id="appliance_dropdown" class="mdc-desktop-choice">
                       <option value="0">Select appliance</option>
                       <option value="room light">Room light</option>
                       <option value="table light">Table light</option>
@@ -200,21 +237,21 @@
                     </select>
                   </div>
                   <div>
-                    <input type="text" id="appliance_text" placeholder="Or type an appliance" />
+                    <input type="text" id="appliance_text" placeholder="Custom appliance (optional)" />
                   </div>
                 </div>
 
                 <div class="mdc-actions">
-                  <button id="add_appliance" class="mdc-btn">Add Appliance Record</button>
+                  <button id="add_appliance" class="mdc-btn">Add Appliance</button>
                 </div>
               </div>
             </section>
           </div>
 
-          <aside class="mdc-sticky">
+          <aside class="mdc-sticky" data-mobile-panel="message">
             <section class="mdc-card">
               <div class="mdc-card__head">
-                <h2 class="mdc-card__title">Message</h2>
+                <h2 class="mdc-card__title"><span class="mdc-card__icon" aria-hidden="true">✎</span>Message</h2>
                 <div class="mdc-headright">
                   <p class="mdc-card__hint">Generate, then copy</p>
                   <span class="mdc-pill" title="Message length (characters)">
@@ -235,9 +272,13 @@
 
                 <textarea id="message" placeholder="Generate message..."></textarea>
 
-                <div class="mdc-actions">
-                  <button id="generate" class="mdc-btn">Generate Message</button>
-                  <button id="copy" class="mdc-btn mdc-btn--ghost">Copy to Clipboard</button>
+                <div class="mdc-actions mdc-message-actions">
+                  <button id="generate" class="mdc-btn mdc-manual-generate">Refresh Message</button>
+                  <button id="copy" class="mdc-btn mdc-btn--ghost">Copy Message</button>
+                </div>
+
+                <div class="mdc-reset-zone">
+                  <button id="reset_morning" class="mdc-reset-btn" type="button">Start New Morning</button>
                 </div>
               </div>
             </section>
@@ -245,6 +286,25 @@
         </div>
       </div>
     </main>
+
+    <div id="undo" class="mdc-undo" aria-live="polite"></div>
+
+    <nav class="mdc-mobile-nav" aria-label="Morning duty sections">
+      <button type="button" class="is-active" data-mobile-target="absentees" aria-pressed="true">
+        <span aria-hidden="true">☀</span>
+        <span>Absent</span>
+        <strong id="nav_absent_count">0</strong>
+      </button>
+      <button type="button" data-mobile-target="appliances" aria-pressed="false">
+        <span aria-hidden="true">⚡</span>
+        <span>Appliances</span>
+        <strong id="nav_appliance_count">0</strong>
+      </button>
+      <button type="button" data-mobile-target="message" aria-pressed="false">
+        <span aria-hidden="true">✎</span>
+        <span>Message</span>
+      </button>
+    </nav>
 
     <footer class="mdc-footer">
       <div class="mdc-footer__inner">
@@ -260,13 +320,14 @@
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-  <script src="src/common.js"></script>
-  <script src="src/datascript.js"></script>
-  <script src="src/addrecordscript.js"></script>
-  <script src="src/addappliancescript.js"></script>
-  <script src="src/generatescript.js"></script>
-  <script src="src/UIscript.js"></script>
-  <script src="src/stats.js"></script>
+  <script type="module" src="./src/common.js"></script>
+  <script type="module" src="./src/datascript.js"></script>
+  <script type="module" src="./src/addrecordscript.js"></script>
+  <script type="module" src="./src/addappliancescript.js"></script>
+  <script type="module" src="./src/generatescript.js"></script>
+  <script type="module" src="./src/UIscript.js"></script>
+  <script type="module" src="./src/stats.js"></script>
+  <script type="module" src="./src/mobileux.js"></script>
 </body>
 
 </html>

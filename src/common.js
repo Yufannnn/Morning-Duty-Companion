@@ -12,6 +12,7 @@
 
   MDC.alert = (function () {
     function show(kind, message) {
+      if (MDC.alert && MDC.alert.muted) return;
       const container = $("alert");
       if (!container) {
         // Keep the app usable even if the alert container is missing.
@@ -47,6 +48,7 @@
     }
 
     return {
+      muted: false,
       success(message) {
         show("success", message);
       },
@@ -54,6 +56,45 @@
         show("error", message);
       },
     };
+  })();
+
+  MDC.undo = (function () {
+    let timer = null;
+
+    function offer(message, restore) {
+      const container = $("undo");
+      if (!container || typeof restore !== "function") return;
+
+      if (timer) window.clearTimeout(timer);
+      container.innerHTML = "";
+
+      const text = document.createElement("span");
+      text.textContent = message;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = "Undo";
+
+      container.appendChild(text);
+      container.appendChild(button);
+      container.classList.add("is-visible");
+
+      function dismiss() {
+        container.classList.remove("is-visible");
+        window.setTimeout(() => {
+          if (!container.classList.contains("is-visible")) container.innerHTML = "";
+        }, 220);
+      }
+
+      button.addEventListener("click", () => {
+        if (timer) window.clearTimeout(timer);
+        restore();
+        dismiss();
+      }, { once: true });
+
+      timer = window.setTimeout(dismiss, 5000);
+    }
+
+    return { offer };
   })();
 
   MDC.table = (function () {

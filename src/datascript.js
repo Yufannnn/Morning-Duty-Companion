@@ -84,15 +84,24 @@ const nameDatabase = [
 "8.16/B Pham Nguyen Minh Khang"
 ];
 
+window.nameDatabase = nameDatabase;
+
 window.addEventListener("DOMContentLoaded", () => {
   const dropdown = document.getElementById("name_dropdown");
-  if (!dropdown) return;
+  const suggestions = document.getElementById("name_suggestions");
 
   for (const name of nameDatabase) {
-    const option = document.createElement("option");
-    option.value = name;
-    option.textContent = name;
-    dropdown.appendChild(option);
+    if (dropdown) {
+      const option = document.createElement("option");
+      option.value = name;
+      option.textContent = name;
+      dropdown.appendChild(option);
+    }
+
+    if (suggestions) {
+      const suggestion = document.createElement("option");
+      suggestion.value = name;
+      suggestions.appendChild(suggestion);
+    }
   }
 });
-
