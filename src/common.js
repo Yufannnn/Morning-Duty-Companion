@@ -124,21 +124,34 @@
 
         for (const row of rows) tbody.appendChild(row);
 
-        // Reset headers, then add arrow to the active column.
+        // Reset headers, then expose the active direction for the CSS chevron.
         for (const col of columns) {
           const header = $(col.headerId);
-          if (header) header.textContent = col.label;
+          if (!header) continue;
+          header.removeAttribute("data-sort-direction");
+          header.setAttribute("aria-sort", "none");
         }
 
         const active = columns.find((c) => c.key === key);
         const header = active ? $(active.headerId) : null;
-        if (header) header.textContent += nextState === "asc" ? " ^" : " v";
+        if (header) {
+          header.dataset.sortDirection = nextState;
+          header.setAttribute("aria-sort", nextState === "asc" ? "ascending" : "descending");
+        }
       }
 
       for (const col of columns) {
         const header = $(col.headerId);
         if (!header) continue;
+        header.tabIndex = 0;
+        header.setAttribute("aria-sort", "none");
+        header.setAttribute("aria-label", `Sort by ${col.label}`);
         header.addEventListener("click", () => sortBy(col.colIndex, col.key));
+        header.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          sortBy(col.colIndex, col.key);
+        });
       }
     }
 

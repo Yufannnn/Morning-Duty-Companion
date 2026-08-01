@@ -628,9 +628,45 @@ textarea {
 }
 
 .mdc-check input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--mdc-accent-dark);
+  appearance: none;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid var(--mdc-ink);
+  border-radius: 3px;
+  background: #ffffff;
+  box-shadow: none;
+  transform: none;
+  display: grid;
+  place-content: center;
+}
+
+.mdc-check input[type="checkbox"]::after {
+  content: "";
+  width: 6px;
+  height: 11px;
+  border: solid #ffffff;
+  border-width: 0 3px 3px 0;
+  opacity: 0;
+  transform: rotate(45deg) scale(0.7);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.mdc-check input[type="checkbox"]:checked {
+  background: var(--mdc-accent-dark);
+}
+
+.mdc-check input[type="checkbox"]:checked::after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+
+.mdc-check input[type="checkbox"]:focus {
+  border-color: var(--mdc-ink);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 0 0 5px var(--mdc-ink);
+  transform: none;
 }
 
 .mdc-btn {
@@ -716,6 +752,38 @@ textarea {
 
 .mdc-table thead th:last-child {
   border-right: 0;
+}
+
+.mdc-table thead th.cursor-pointer {
+  cursor: pointer;
+}
+
+.mdc-table thead th.cursor-pointer::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  opacity: 0;
+  transform: translateY(-1px) rotate(45deg);
+  transition: opacity 140ms ease, transform 180ms ease;
+}
+
+.mdc-table thead th.cursor-pointer[data-sort-direction="asc"]::after {
+  opacity: 0.9;
+  transform: translateY(2px) rotate(225deg);
+}
+
+.mdc-table thead th.cursor-pointer[data-sort-direction="desc"]::after {
+  opacity: 0.9;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.mdc-table thead th.cursor-pointer:focus-visible {
+  outline: 3px solid var(--mdc-ink);
+  outline-offset: -4px;
 }
 
 .mdc-table tbody td {
@@ -1185,6 +1253,15 @@ textarea {
 
   .mdc-choicechips button {
     padding: 8px 6px;
+  }
+
+  .mdc-check {
+    display: flex;
+    width: 100%;
+    min-height: 52px;
+    box-sizing: border-box;
+    justify-content: center;
+    text-align: center;
   }
 
   .mdc-actions .mdc-btn {
